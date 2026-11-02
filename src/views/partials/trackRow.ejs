@@ -1,0 +1,50 @@
+<%# Linha de faixa reutilizada. Espera: track, index, playlists (array) e opcionalmente playlist (quando dentro de uma) %>
+<tr data-track="<%= JSON.stringify(track.dto) %>" class="track-row">
+  <td class="text-body-secondary text-center" style="width:3rem">
+    <span class="track-index"><%= index + 1 %></span>
+    <button class="btn btn-sm btn-link text-success p-0 js-play track-play" title="Tocar"><i class="bi bi-play-fill fs-5"></i></button>
+  </td>
+  <td>
+    <div class="d-flex align-items-center gap-3">
+      <img src="<%= track.dto.coverUrl %>" alt="" class="rounded track-thumb" loading="lazy">
+      <div class="min-w-0">
+        <div class="fw-semibold text-truncate track-title"><%= track.title %></div>
+        <div class="small text-body-secondary text-truncate"><%= track.artist_name || 'Artista desconhecido' %></div>
+      </div>
+    </div>
+  </td>
+  <td class="d-none d-lg-table-cell text-body-secondary"><%= track.album_title || '—' %></td>
+  <td class="text-body-secondary text-end"><%= formatDuration(track.duration_seconds) %></td>
+  <td class="text-end" style="width:3rem">
+    <div class="dropdown">
+      <button class="btn btn-sm btn-link text-body-secondary" data-bs-toggle="dropdown" aria-label="Ações"><i class="bi bi-three-dots-vertical"></i></button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <% if (locals.playlist) { %>
+          <li>
+            <form method="post" action="/playlists/<%= playlist.id %>/tracks/<%= track.id %>/delete">
+              <button class="dropdown-item" type="submit"><i class="bi bi-dash-circle"></i> Remover da playlist</button>
+            </form>
+          </li>
+        <% } else { %>
+          <% if (playlists.length) { %>
+            <li><h6 class="dropdown-header">Adicionar à playlist</h6></li>
+            <% playlists.forEach((p) => { %>
+              <li>
+                <form method="post" action="/playlists/<%= p.id %>/tracks">
+                  <input type="hidden" name="track_id" value="<%= track.id %>">
+                  <button class="dropdown-item" type="submit"><i class="bi bi-plus-lg"></i> <%= p.name %></button>
+                </form>
+              </li>
+            <% }) %>
+            <li><hr class="dropdown-divider"></li>
+          <% } %>
+          <li>
+            <form method="post" action="/tracks/<%= track.id %>/delete" onsubmit="return confirm('Excluir esta faixa permanentemente?')">
+              <button class="dropdown-item text-danger" type="submit"><i class="bi bi-trash"></i> Excluir faixa</button>
+            </form>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </td>
+</tr>

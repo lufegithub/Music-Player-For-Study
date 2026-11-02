@@ -1,0 +1,46 @@
+<%- include('../partials/head') %>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+  <h1 class="h3 mb-0">Playlists</h1>
+  <button class="btn btn-success btn-sm" data-bs-toggle="collapse" data-bs-target="#newPlaylist">
+    <i class="bi bi-plus-lg"></i> Nova playlist
+  </button>
+</div>
+
+<div class="collapse mb-4" id="newPlaylist">
+  <form method="post" action="/playlists" class="card card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label" for="pl-name">Nome</label>
+        <input class="form-control" id="pl-name" name="name" required maxlength="150">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="pl-desc">Descrição</label>
+        <input class="form-control" id="pl-desc" name="description" maxlength="500">
+      </div>
+      <div class="col-md-2 d-grid">
+        <button class="btn btn-success" type="submit">Criar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<% if (playlists.length === 0) { %>
+  <p class="text-body-secondary">Nenhuma playlist criada.</p>
+<% } else { %>
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+    <% playlists.forEach((p) => { %>
+      <div class="col">
+        <a href="/playlists/<%= p.id %>" class="card h-100 text-decoration-none playlist-card">
+          <div class="card-body">
+            <i class="bi bi-collection-play fs-2 text-success"></i>
+            <h2 class="h6 mt-2 mb-1 text-truncate"><%= p.name %></h2>
+            <div class="small text-body-secondary"><%= p.track_count %> faixa(s)</div>
+          </div>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('../partials/foot') %>

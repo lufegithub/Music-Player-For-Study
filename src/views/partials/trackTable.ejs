@@ -1,0 +1,22 @@
+<%# Tabela de faixas. Espera: tracks, playlists e opcionalmente playlist %>
+<div class="d-flex justify-content-end mb-2">
+  <button class="btn btn-success btn-sm js-play-all"><i class="bi bi-play-fill"></i> Tocar tudo</button>
+</div>
+<div class="table-responsive">
+  <table class="table table-hover align-middle track-list">
+    <thead>
+      <tr class="small text-body-secondary">
+        <th class="text-center">#</th>
+        <th>Título</th>
+        <th class="d-none d-lg-table-cell">Álbum</th>
+        <th class="text-end"><i class="bi bi-clock"></i></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tracks.forEach((track, index) => { %>
+        <%- include('trackRow', { track, index, playlists, playlist: locals.playlist }) %>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

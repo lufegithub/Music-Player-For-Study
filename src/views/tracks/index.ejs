@@ -1,0 +1,25 @@
+<%- include('../partials/head') %>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+  <h1 class="h3 mb-0">Biblioteca</h1>
+  <form class="d-flex gap-2" method="get" action="/" role="search">
+    <input class="form-control" type="search" name="q" value="<%= q %>" placeholder="Buscar faixa, artista ou álbum">
+    <button class="btn btn-outline-secondary" type="submit" aria-label="Buscar"><i class="bi bi-search"></i></button>
+  </form>
+</div>
+
+<% if (tracks.length === 0) { %>
+  <div class="text-center text-body-secondary py-5">
+    <i class="bi bi-music-note-list display-4 d-block mb-3"></i>
+    <% if (q) { %>
+      Nenhuma faixa encontrada para "<%= q %>".
+    <% } else { %>
+      Nenhuma faixa na biblioteca ainda.
+      <div class="mt-3"><a href="/tracks/new" class="btn btn-success"><i class="bi bi-upload"></i> Enviar a primeira faixa</a></div>
+    <% } %>
+  </div>
+<% } else { %>
+  <%- include('../partials/trackTable', { tracks, playlists }) %>
+<% } %>
+
+<%- include('../partials/foot') %>
